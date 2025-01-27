@@ -1,0 +1,54 @@
+run:
+  timeout: 5m
+  allow-parallel-runners: true
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+  - path: _test\.go
+    linters:
+      - gocyclo
+      - dupl
+      - gosec
+      - varnamelen
+
+linters:
+  enable-all: true
+  disable:
+    - exportloopref # Deprecated (since v1.60.2)
+    - depguard
+    - forbidigo
+    - gochecknoinits # As this project is a cli, init() are ok to use in some cases.
+    - gochecknoglobals # As this project is a cli, globals are ok to use in some cases.
+    - lll
+    - err113
+    - exhaustruct
+    - ireturn
+    - wrapcheck # Disabling for now but should be removed soon.
+    - wsl
+    - perfsprint
+    - paralleltest
+    - tparallel
+    - godox
+
+linters-settings:
+  revive:
+    rules:
+      - name: comment-spacings
+  varnamelen:
+    ignore-names:
+      - tt
+    ignore-decls:
+      - c *http.Client
+      - t *testing.T
+      - f *os.File
+      - w http.ResponseWriter
+      - r *http.Request
+      - err error
+      - ctx context.Context
+      - fs *pflag.FlagSet
+      - m *machine.Machine
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1000"
