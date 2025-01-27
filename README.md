@@ -1,6 +1,8 @@
 # Ollama-Machine
 
-**Think `docker-machine` but for GPU cloud instances running Ollama, with a focus on safe cloud credentials storage and security.**
+Think `docker-machine` but for GPU cloud instances running Ollama, with a focus on safe cloud credentials storage and security.
+
+**Disclaimer:** Currently, only two providers are available: OVHcloud and Openstack. Please note that although I work at OVHcloud, this project is not affiliated with or sponsored by OVHcloud in any way. This project is maintained on my personal free time.
 
 ## 🚀 About the Project
 
