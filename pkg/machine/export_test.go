@@ -17,4 +17,8 @@
 
 package machine
 
-var ExportedFS = fs
+import "github.com/spf13/afero"
+
+var ExportedSetFS = func(newFs afero.Fs) {
+	fs = newFs
+}

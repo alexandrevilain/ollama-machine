@@ -31,7 +31,11 @@ import (
 )
 
 func TestSave(t *testing.T) {
-	machine.ExportedFS = afero.NewMemMapFs()
+	fs := afero.NewMemMapFs()
+	if err := fs.MkdirAll(config.GetMachineDir(), os.ModePerm); err != nil {
+		t.Fatal(err)
+	}
+	machine.ExportedSetFS(fs)
 
 	tests := map[string]struct {
 		machine *machine.Machine
@@ -57,7 +61,7 @@ func TestSave(t *testing.T) {
 			g.Expect(err).NotTo(HaveOccurred())
 
 			filePath := filepath.Join(config.GetMachineDir(), tt.machine.ID+".json")
-			file, err := os.Open(filePath)
+			file, err := fs.Open(filePath)
 			g.Expect(err).NotTo(HaveOccurred())
 			defer func() {
 				_ = file.Close()
@@ -72,7 +76,11 @@ func TestSave(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	machine.ExportedFS = afero.NewMemMapFs()
+	fs := afero.NewMemMapFs()
+	if err := fs.MkdirAll(config.GetMachineDir(), os.ModePerm); err != nil {
+		t.Fatal(err)
+	}
+	machine.ExportedSetFS(fs)
 
 	tests := map[string]struct {
 		machine *machine.Machine
@@ -105,7 +113,11 @@ func TestGet(t *testing.T) {
 }
 
 func TestGetByName(t *testing.T) {
-	machine.ExportedFS = afero.NewMemMapFs()
+	fs := afero.NewMemMapFs()
+	if err := fs.MkdirAll(config.GetMachineDir(), os.ModePerm); err != nil {
+		t.Fatal(err)
+	}
+	machine.ExportedSetFS(fs)
 
 	tests := map[string]struct {
 		machine *machine.Machine
@@ -138,7 +150,11 @@ func TestGetByName(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	machine.ExportedFS = afero.NewMemMapFs()
+	fs := afero.NewMemMapFs()
+	if err := fs.MkdirAll(config.GetMachineDir(), os.ModePerm); err != nil {
+		t.Fatal(err)
+	}
+	machine.ExportedSetFS(fs)
 
 	tests := map[string]struct {
 		machines []*machine.Machine
@@ -183,7 +199,11 @@ func TestList(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	machine.ExportedFS = afero.NewMemMapFs()
+	fs := afero.NewMemMapFs()
+	if err := fs.MkdirAll(config.GetMachineDir(), os.ModePerm); err != nil {
+		t.Fatal(err)
+	}
+	machine.ExportedSetFS(fs)
 
 	tests := map[string]struct {
 		machine *machine.Machine

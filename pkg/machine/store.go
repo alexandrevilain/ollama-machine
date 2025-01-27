@@ -21,7 +21,6 @@ import (
 	"encoding/json"
 	"fmt"
 	iofs "io/fs"
-	"os"
 	"path/filepath"
 
 	"github.com/alexandrevilain/ollama-machine/pkg/config"
@@ -34,7 +33,7 @@ var fs = afero.NewOsFs() //nolint:varnamelen
 
 // Save saves the given machine to a file.
 func Save(machine *Machine) error {
-	file, err := os.Create(machineFilename(machine.ID))
+	file, err := fs.Create(machineFilename(machine.ID))
 	if err != nil {
 		return err
 	}
@@ -44,7 +43,7 @@ func Save(machine *Machine) error {
 
 // Get retrieves a machine by its ID.
 func Get(id string) (*Machine, error) {
-	file, err := os.Open(machineFilename(id))
+	file, err := fs.Open(machineFilename(id))
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +102,7 @@ func List() ([]*Machine, error) {
 
 // Delete deletes a machine by its ID.
 func Delete(id string) error {
-	return os.Remove(machineFilename(id))
+	return fs.Remove(machineFilename(id))
 }
 
 // machineFilename returns the filename for the machine with the given ID.
