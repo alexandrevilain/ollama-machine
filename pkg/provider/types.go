@@ -40,6 +40,13 @@ type MachineManager interface {
 	Create(ctx context.Context, machine *CreateMachineRequest) (*Machine, error)
 	// Delete deletes the machine with the given ID.
 	Delete(ctx context.Context, id string) error
+	// Start starts the machine with the given ID.
+	Start(ctx context.Context, id string) error
+	// Stop stops the machine with the given ID.
+	// This is a soft stop, meaning the machine can be started again.
+	// But underlying providers should ensure the stop implementation
+	// results in the machine not incurring too costs (snapshot or storage cost only).
+	Stop(ctx context.Context, id string) error
 	// Get retrieves the machine with the given ID.
 	Get(ctx context.Context, id string) (*Machine, error)
 	// MachineKind returns the kind of machine managed.

@@ -37,6 +37,8 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+var waitMachineStateInterval = 5 * time.Second
+
 // Provisioner is responsible for creating and deleting machines.
 type Provisioner struct {
 	providerName    string
@@ -168,7 +170,7 @@ func (p *Provisioner) CreateMachine(ctx context.Context, req *provider.CreateMac
 			break
 		}
 
-		time.Sleep(5 * time.Second) //nolint:mnd
+		time.Sleep(waitMachineStateInterval)
 
 		log.Info("Still waiting for machine to be ready")
 	}
@@ -191,7 +193,7 @@ func (p *Provisioner) CreateMachine(ctx context.Context, req *provider.CreateMac
 			if errors.Is(err, syscall.ECONNREFUSED) {
 				log.Info("Waiting for SSH to be ready", "err", err)
 
-				time.Sleep(5 * time.Second) //nolint:mnd
+				time.Sleep(waitMachineStateInterval)
 
 				continue
 			}
@@ -214,7 +216,7 @@ func (p *Provisioner) CreateMachine(ctx context.Context, req *provider.CreateMac
 
 		log.Info("Still waiting for Ollama to be started", "status", status)
 
-		time.Sleep(5 * time.Second) //nolint:mnd
+		time.Sleep(waitMachineStateInterval)
 	}
 
 	log.Info("Retrieving Ollama host")
@@ -289,6 +291,84 @@ func (p *Provisioner) DeleteMachine(ctx context.Context, machineName string) err
 	}
 
 	log.Info("Machine deleted")
+
+	return nil
+}
+
+func (p *Provisioner) StartMachine(ctx context.Context, machineName string) error {
+	m, err := machine.GetByName(machineName)
+	if err != nil {
+		return fmt.Errorf("failed to get machine: %w", err)
+	}
+
+	log.Info("Starting machine")
+
+	err = p.machineManager.Start(ctx, m.ID)
+	if err != nil {
+		return fmt.Errorf("failed to start machine: %w", err)
+	}
+
+	for {
+		providerMachine, err := p.machineManager.Get(ctx, m.ID)
+		if err != nil {
+			return fmt.Errorf("failed to get machine: %w", err)
+		}
+
+		if providerMachine.State == provider.MachineStateRunning {
+			m.Machine = providerMachine
+
+			break
+		}
+
+		log.Info("Still waiting for machine to be started")
+		time.Sleep(waitMachineStateInterval)
+	}
+
+	log.Info("Machine started")
+
+	err = machine.Save(m)
+	if err != nil {
+		return fmt.Errorf("failed to save machine: %w", err)
+	}
+
+	return nil
+}
+
+func (p *Provisioner) StopMachine(ctx context.Context, machineName string) error {
+	m, err := machine.GetByName(machineName)
+	if err != nil {
+		return fmt.Errorf("failed to get machine: %w", err)
+	}
+
+	log.Info("Stopping machine")
+
+	err = p.machineManager.Stop(ctx, m.ID)
+	if err != nil {
+		return fmt.Errorf("failed to stop machine: %w", err)
+	}
+
+	for {
+		providerMachine, err := p.machineManager.Get(ctx, m.ID)
+		if err != nil {
+			return fmt.Errorf("failed to get machine: %w", err)
+		}
+
+		if providerMachine.State == provider.MachineStateStopped {
+			m.Machine = providerMachine
+
+			break
+		}
+
+		log.Info("Still waiting for machine to be stopped")
+		time.Sleep(waitMachineStateInterval)
+	}
+
+	err = machine.Save(m)
+	if err != nil {
+		return fmt.Errorf("failed to save machine: %w", err)
+	}
+
+	log.Info("Machine stopped")
 
 	return nil
 }

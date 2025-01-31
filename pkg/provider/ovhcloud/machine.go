@@ -20,6 +20,7 @@ package ovhcloud
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/alexandrevilain/ollama-machine/pkg/provider"
@@ -85,6 +86,18 @@ func (m *MachineManager) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
+func (m *MachineManager) Start(ctx context.Context, id string) error {
+	url := fmt.Sprintf("/cloud/project/%s/instance/%s/unshelve", m.client.ServiceName, id)
+
+	return m.client.Client.PostWithContext(ctx, url, nil, nil)
+}
+
+func (m *MachineManager) Stop(ctx context.Context, id string) error {
+	url := fmt.Sprintf("/cloud/project/%s/instance/%s/shelve", m.client.ServiceName, id)
+
+	return m.client.Client.PostWithContext(ctx, url, nil, nil)
+}
+
 func (m *MachineManager) Get(ctx context.Context, id string) (*provider.Machine, error) {
 	instance, err := m.client.GetInstance(ctx, id)
 	if err != nil {
@@ -121,9 +134,18 @@ func instanceToMachine(instance *ovhsdk.Instance) (*provider.Machine, error) {
 		state = provider.MachineStateTerminated
 	case ovhsdk.InstanceError:
 		state = provider.MachineStateError
-	case ovhsdk.InstanceStopped:
+	case ovhsdk.InstanceStopped,
+		ovhsdk.InstanceStatus("SHELVED"),
+		ovhsdk.InstanceStatus("SHELVED_OFFLOADED"):
 		state = provider.MachineStateStopped
-	case ovhsdk.InstanceDeleting, ovhsdk.InstanceReboot, ovhsdk.InstanceBuilding, ovhsdk.InstanceUnknown, ovhsdk.InstanceBuild, ovhsdk.InstanceResuming, ovhsdk.InstanceRebuild:
+	case ovhsdk.InstanceDeleting,
+		ovhsdk.InstanceReboot,
+		ovhsdk.InstanceBuilding,
+		ovhsdk.InstanceUnknown,
+		ovhsdk.InstanceBuild,
+		ovhsdk.InstanceResuming,
+		ovhsdk.InstanceRebuild,
+		ovhsdk.InstanceStatus("UNSHELVING"):
 		state = provider.MachineStatePending
 	}
 
