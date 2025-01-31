@@ -18,38 +18,22 @@
 package cmd
 
 import (
-	"os"
-
-	"github.com/alexandrevilain/ollama-machine/pkg/config"
-	"github.com/charmbracelet/log"
+	"github.com/alexandrevilain/ollama-machine/internal/provisioner"
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{
-	Use:   "ollama-machine",
-	Short: "ollama-machine is a tool to manage cloud machines running Ollama",
-}
+// stopCmd represents the stop command.
+var stopCmd = &cobra.Command{
+	Use:   "stop [machine name]",
+	Short: "",
+	Long:  ``,
+	Args:  cobra.ExactArgs(1),
+	RunE: func(cmd *cobra.Command, args []string) error {
+		prov, err := provisioner.NewProvisionerForMachine(args[0])
+		if err != nil {
+			return err
+		}
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-func Execute() {
-	err := config.Init()
-	if err != nil {
-		log.Error(err)
-		os.Exit(1)
-	}
-
-	rootCmd.AddCommand(lsCmd)
-	rootCmd.AddCommand(envCmd)
-	rootCmd.AddCommand(credentialsCmd)
-	rootCmd.AddCommand(createCmd)
-	rootCmd.AddCommand(deleteCmd)
-	rootCmd.AddCommand(tunnelCmd)
-	rootCmd.AddCommand(startCmd)
-	rootCmd.AddCommand(stopCmd)
-
-	err = rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+		return prov.StopMachine(cmd.Context(), args[0])
+	},
 }

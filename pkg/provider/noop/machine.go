@@ -48,6 +48,14 @@ func (m *MachineManager) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
+func (m *MachineManager) Start(ctx context.Context, id string) error {
+	return nil
+}
+
+func (m *MachineManager) Stop(ctx context.Context, id string) error {
+	return nil
+}
+
 func (m *MachineManager) Get(ctx context.Context, id string) (*provider.Machine, error) {
 	if m.getCount < 3 { //nolint:mnd
 		m.getCount++

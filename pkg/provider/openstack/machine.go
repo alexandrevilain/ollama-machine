@@ -88,6 +88,14 @@ func (p *MachineManager) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
+func (p *MachineManager) Start(ctx context.Context, id string) error {
+	return servers.Unshelve(ctx, p.computeClient, id, servers.UnshelveOpts{}).ExtractErr()
+}
+
+func (p *MachineManager) Stop(ctx context.Context, id string) error {
+	return servers.Shelve(ctx, p.computeClient, id).ExtractErr()
+}
+
 func (p *MachineManager) Get(ctx context.Context, id string) (*provider.Machine, error) {
 	server, err := servers.Get(ctx, p.computeClient, id).Extract()
 	if err != nil {
@@ -156,8 +164,12 @@ func serverToMachine(server *servers.Server) (*provider.Machine, error) {
 		state = provider.MachineStateRunning
 	case "ERROR":
 		state = provider.MachineStateError
-	case "BUILD":
+	case "PAUSED", "SHELVED", "SHELVED_OFFLOADED", "STOPPED", "SHUTOFF", "SUSPENDED":
+		state = provider.MachineStateStopped
+	case "BUILD", "HARD_REBOOT", "MIGRATING", "PASSWORD", "REBOOT", "REBUILD", "RESCUE", "RESIZE", "REVERT_RESIZE", "VERIFY_RESIZE":
 		state = provider.MachineStatePending
+	case "DELETED", "SOFT_DELETED":
+		state = provider.MachineStateTerminated
 	}
 
 	publicIP, err := getPublicIP(server)
