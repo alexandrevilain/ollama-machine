@@ -9,7 +9,7 @@ require (
 	github.com/gophercloud/gophercloud/v2 v2.4.0
 	github.com/gosuri/uitable v0.0.4
 	github.com/onsi/gomega v1.36.2
-	github.com/ovh/go-ovh v1.6.0
+	github.com/ovh/go-ovh v1.7.0
 	github.com/spf13/afero v1.12.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.6
