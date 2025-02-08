@@ -15,12 +15,16 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package noop
+package aws
 
 import (
+	"context"
 	"errors"
 
 	"github.com/alexandrevilain/ollama-machine/pkg/provider"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
 )
 
 type Provider struct {
@@ -37,10 +41,26 @@ func (p *Provider) Credentials() provider.Credentials {
 	return p.credentials
 }
 
-func (p *Provider) MachineManager(_ string) (provider.MachineManager, error) {
+func (p *Provider) MachineManager(region string) (provider.MachineManager, error) {
 	if p.credentials == nil {
 		return nil, errors.New("credentials not set")
 	}
 
-	return newMachineManager()
+	ctx := context.Background()
+
+	cfg, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion(region),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
+			p.credentials.AccessKeyID,
+			p.credentials.SecretAccessKey,
+			"", // Session token is empty for long-term credentials
+		)),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	client := ec2.NewFromConfig(cfg)
+
+	return newMachineManager(client), nil
 }

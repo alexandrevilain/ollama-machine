@@ -15,26 +15,35 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package registry
+package aws
 
 import (
-	"os"
+	"errors"
 
-	"github.com/alexandrevilain/ollama-machine/pkg/provider"
-	"github.com/alexandrevilain/ollama-machine/pkg/provider/aws"
-	"github.com/alexandrevilain/ollama-machine/pkg/provider/noop"
-	"github.com/alexandrevilain/ollama-machine/pkg/provider/openstack"
-	"github.com/alexandrevilain/ollama-machine/pkg/provider/ovhcloud"
+	"github.com/spf13/pflag"
 )
 
-var Providers = map[string]provider.Provider{ //nolint:gochecknoglobals
-	"openstack": openstack.NewProvider(),
-	"ovhcloud":  ovhcloud.NewProvider(),
-	"aws":       aws.NewProvider(),
+type Credentials struct {
+	AccessKeyID     string `json:"accessKeyId"`
+	SecretAccessKey string `json:"secretAccessKey"`
 }
 
-func init() {
-	if os.Getenv("OLLAMA_MACHINE_DEV") != "" {
-		Providers["noop"] = noop.NewProvider()
+func (c *Credentials) Complete() error {
+	return nil
+}
+
+func (c *Credentials) Validate() error {
+	if c.AccessKeyID == "" {
+		return errors.New("access key ID is required")
 	}
+	if c.SecretAccessKey == "" {
+		return errors.New("secret access key is required")
+	}
+
+	return nil
+}
+
+func (c *Credentials) RegisterFlags(fs *pflag.FlagSet) {
+	fs.StringVar(&c.AccessKeyID, "access-key-id", "", "AWS access key ID")
+	fs.StringVar(&c.SecretAccessKey, "secret-access-key", "", "AWS secret access key")
 }

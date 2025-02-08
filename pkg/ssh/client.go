@@ -25,6 +25,10 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
+const (
+	DefaultPort = 22
+)
+
 // NewClient creates a new SSH client and session.
 func NewClient(host, port, user string, k *KeyPairFiles) (*ssh.Client, *ssh.Session, error) {
 	privateKeyFile, err := os.ReadFile(k.PrivateKeyPath)

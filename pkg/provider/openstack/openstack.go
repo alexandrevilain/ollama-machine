@@ -40,7 +40,7 @@ func (p *Provider) Credentials() provider.Credentials {
 	return p.credentials
 }
 
-func (p *Provider) MachineManager() (provider.MachineManager, error) {
+func (p *Provider) MachineManager(region string) (provider.MachineManager, error) {
 	if p.credentials == nil {
 		return nil, errors.New("credentials not set")
 	}
@@ -60,18 +60,18 @@ func (p *Provider) MachineManager() (provider.MachineManager, error) {
 	}
 
 	computeClient, err := openstack.NewComputeV2(providerClient, gophercloud.EndpointOpts{
-		Region: p.credentials.Region,
+		Region: region,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	imageClient, err := openstack.NewImageV2(providerClient, gophercloud.EndpointOpts{
-		Region: p.credentials.Region,
+		Region: region,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return newMachineManager(computeClient, imageClient), nil
+	return newMachineManager(computeClient, imageClient, region), nil
 }

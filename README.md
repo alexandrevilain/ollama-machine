@@ -39,13 +39,13 @@ make build
 Initialize your cloud provider:
 
 ```bash
-ollama-machine credentials create dev -p openstack --openstack-identity-endpoint="https://auth.cloud.ovh.net/v3" --openstack-username="my-username" --openstack-password="my-password" --openstack-tenant-name="my-tenant-name"  --openstack-region="GRA7"
+ollama-machine credentials create dev -p openstack --openstack-identity-endpoint="https://auth.cloud.ovh.net/v3" --openstack-username="my-username" --openstack-password="my-password" --openstack-tenant-name="my-tenant-name"
 ```
 
 Create a GPU instance:
 
 ```bash
-ollama-machine create my-machine --provider openstack --credentials dev --instance-type t2-le-90 --image "Debian 12 - Docker" --public
+ollama-machine create my-machine --provider openstack --credentials dev --instance-type t2-le-90 --image "Debian 12 - Docker" --region=GRA7 --public
 ```
 
 > [!NOTE]  
@@ -75,9 +75,9 @@ Most of the future work will be around adding new cloud and connectivity provide
 
 - [x] Openstack
 - [x] OVHcloud
+- [x] AWS
 - [ ] Scaleway
 - [ ] Linode
-- [ ] AWS
 - [ ] Google Cloud
 - [ ] Google Cloud Run
 - [ ] Azure

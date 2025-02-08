@@ -45,19 +45,19 @@ func (m *MachineManager) Create(ctx context.Context, req *provider.CreateMachine
 		return nil, err
 	}
 
-	image, err := m.client.GetImage(ctx, req.Image, req.Region)
+	image, err := m.client.GetImage(ctx, req.Image, m.client.Region)
 	if err != nil {
 		return nil, err
 	}
 
-	flavor, err := m.client.GetFlavor(ctx, req.InstanceType, req.Region)
+	flavor, err := m.client.GetFlavor(ctx, req.InstanceType, m.client.Region)
 	if err != nil {
 		return nil, err
 	}
 
 	instance, err := m.client.CreateInstance(ctx, ovhsdk.InstanceCreateOptions{
 		Name:           req.Name,
-		Region:         req.Region,
+		Region:         m.client.Region,
 		FlavorID:       flavor.ID,
 		ImageID:        image.ID,
 		MonthlyBilling: false,
@@ -116,10 +116,6 @@ func (m *MachineManager) validateCreateMachineRequest(req *provider.CreateMachin
 		req.Image = "ubuntu-24.04"
 	}
 
-	if req.Region == "" {
-		req.Region = "GRA7"
-	}
-
 	return nil
 }
 
@@ -150,9 +146,10 @@ func instanceToMachine(instance *ovhsdk.Instance) (*provider.Machine, error) {
 	}
 
 	return &provider.Machine{
-		ID:    instance.ID,
-		Name:  instance.Name,
-		IP:    ipv4,
-		State: state,
+		ID:     instance.ID,
+		Name:   instance.Name,
+		Region: instance.Region,
+		IP:     ipv4,
+		State:  state,
 	}, nil
 }
