@@ -37,10 +37,11 @@ func (m *MachineManager) MachineKind() provider.MachineKind {
 
 func (m *MachineManager) Create(ctx context.Context, req *provider.CreateMachineRequest) (*provider.Machine, error) {
 	return &provider.Machine{
-		ID:    "4b00c526-5d3f-4648-b69b-272ab71c6e18",
-		Name:  "fake",
-		IP:    "1.2.3.4",
-		State: provider.MachineStatePending,
+		ID:     "4b00c526-5d3f-4648-b69b-272ab71c6e18",
+		Name:   "fake",
+		IP:     "1.2.3.4",
+		State:  provider.MachineStatePending,
+		Region: "fake",
 	}, nil
 }
 
@@ -61,17 +62,19 @@ func (m *MachineManager) Get(ctx context.Context, id string) (*provider.Machine,
 		m.getCount++
 
 		return &provider.Machine{
-			ID:    "4b00c526-5d3f-4648-b69b-272ab71c6e18",
-			Name:  "fake",
-			IP:    "1.2.3.4",
-			State: provider.MachineStatePending,
+			ID:     "4b00c526-5d3f-4648-b69b-272ab71c6e18",
+			Name:   "fake",
+			IP:     "1.2.3.4",
+			State:  provider.MachineStatePending,
+			Region: "fake",
 		}, nil
 	}
 
 	return &provider.Machine{
-		ID:    "4b00c526-5d3f-4648-b69b-272ab71c6e18",
-		Name:  "fake",
-		IP:    "1.2.3.4",
-		State: provider.MachineStateRunning,
+		ID:     "4b00c526-5d3f-4648-b69b-272ab71c6e18",
+		Name:   "fake",
+		IP:     "1.2.3.4",
+		State:  provider.MachineStateRunning,
+		Region: "fake",
 	}, nil
 }

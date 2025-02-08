@@ -33,12 +33,14 @@ import (
 type MachineManager struct {
 	computeClient *gophercloud.ServiceClient
 	imageClient   *gophercloud.ServiceClient
+	region        string
 }
 
-func newMachineManager(computeClient, imageClient *gophercloud.ServiceClient) *MachineManager {
+func newMachineManager(computeClient, imageClient *gophercloud.ServiceClient, region string) *MachineManager {
 	return &MachineManager{
 		computeClient: computeClient,
 		imageClient:   imageClient,
+		region:        region,
 	}
 }
 
@@ -71,7 +73,7 @@ func (p *MachineManager) Create(ctx context.Context, machineRequest *provider.Cr
 		return nil, err
 	}
 
-	return serverToMachine(server)
+	return p.serverToMachine(server)
 }
 
 func (p *MachineManager) Delete(ctx context.Context, id string) error {
@@ -102,7 +104,7 @@ func (p *MachineManager) Get(ctx context.Context, id string) (*provider.Machine,
 		return nil, err
 	}
 
-	return serverToMachine(server)
+	return p.serverToMachine(server)
 }
 
 func (p *MachineManager) findFlavorByName(ctx context.Context, name string) (string, error) {
@@ -157,7 +159,7 @@ func (p *MachineManager) validateCreateMachineRequest(req *provider.CreateMachin
 	return nil
 }
 
-func serverToMachine(server *servers.Server) (*provider.Machine, error) {
+func (p *MachineManager) serverToMachine(server *servers.Server) (*provider.Machine, error) {
 	state := provider.MachineStatePending
 	switch server.Status {
 	case "ACTIVE":
@@ -178,10 +180,11 @@ func serverToMachine(server *servers.Server) (*provider.Machine, error) {
 	}
 
 	return &provider.Machine{
-		ID:    server.ID,
-		Name:  server.Name,
-		State: state,
-		IP:    publicIP,
+		ID:     server.ID,
+		Name:   server.Name,
+		State:  state,
+		Region: p.region,
+		IP:     publicIP,
 	}, nil
 }
 

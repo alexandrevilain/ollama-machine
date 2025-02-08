@@ -38,6 +38,8 @@ linters-settings:
   varnamelen:
     ignore-names:
       - tt
+      - id
+      - ip
     ignore-decls:
       - c *http.Client
       - t *testing.T

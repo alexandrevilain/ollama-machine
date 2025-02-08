@@ -39,9 +39,9 @@ var lsCmd = &cobra.Command{
 		table := uitable.New()
 		table.MaxColWidth = 50
 
-		table.AddRow("NAME", "STATE", "PROVIDER", "IP", "OLLAMA HOST", "OLLAMA PORT")
+		table.AddRow("NAME", "STATE", "PROVIDER", "REGION", "IP", "OLLAMA HOST", "OLLAMA PORT")
 		for _, machine := range machines {
-			table.AddRow(machine.Name, machine.State, machine.ProviderName, machine.IP, machine.OllamaConfig.Host, machine.OllamaConfig.Port)
+			table.AddRow(machine.Name, machine.State, machine.ProviderName, machine.Region, machine.IP, machine.OllamaConfig.Host, machine.OllamaConfig.Port)
 		}
 
 		fmt.Println(table)

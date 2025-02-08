@@ -33,7 +33,6 @@ type Credentials struct {
 	TenantID           string `json:"tenantId"`
 	TenantName         string `json:"tenantName"`
 	DomainName         string `json:"domainName"`
-	Region             string `json:"region"`
 	IdentityAPIVersion int    `json:"identityApiVersion"`
 
 	passwordFromStdin bool `json:"-"`
@@ -75,10 +74,6 @@ func (c *Credentials) Validate() error {
 		return errors.New("domain-name is required")
 	}
 
-	if c.Region == "" {
-		return errors.New("region is required")
-	}
-
 	if c.IdentityAPIVersion != 2 && c.IdentityAPIVersion != 3 {
 		return errors.New("identity-api-version must be 2 or 3")
 	}
@@ -94,6 +89,5 @@ func (c *Credentials) RegisterFlags(fs *pflag.FlagSet) {
 	fs.StringVar(&c.TenantID, "tenant-id", "", "OpenStack tenant ID")
 	fs.StringVar(&c.TenantName, "tenant-name", "", "OpenStack tenant name")
 	fs.StringVar(&c.DomainName, "domain-name", "Default", "OpenStack user domain name")
-	fs.StringVar(&c.Region, "region", "", "OpenStack region")
 	fs.IntVar(&c.IdentityAPIVersion, "identity-api-version", 3, "OpenStack identity API version") //nolint:mnd
 }

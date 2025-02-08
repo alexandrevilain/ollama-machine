@@ -47,7 +47,7 @@ type Provisioner struct {
 }
 
 // NewProvisioner creates a new instance of provisioner.
-func NewProvisioner(providerName, credentialsName string) (*Provisioner, error) {
+func NewProvisioner(providerName, credentialsName, region string) (*Provisioner, error) {
 	provider, ok := registry.Providers[providerName]
 	if !ok {
 		return nil, fmt.Errorf("provider %s not found", providerName)
@@ -61,7 +61,7 @@ func NewProvisioner(providerName, credentialsName string) (*Provisioner, error) 
 		return nil, fmt.Errorf("failed to get credentials: %w", err)
 	}
 
-	machineManager, err := provider.MachineManager()
+	machineManager, err := provider.MachineManager(region)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get machine manager: %w", err)
 	}
@@ -96,7 +96,7 @@ func NewProvisionerForMachine(machineName string) (*Provisioner, error) {
 		return nil, fmt.Errorf("failed to get credentials: %w", err)
 	}
 
-	machineManager, err := provider.MachineManager()
+	machineManager, err := provider.MachineManager(m.Region)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get machine manager: %w", err)
 	}

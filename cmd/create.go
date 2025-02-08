@@ -52,7 +52,12 @@ such as provider, credentials, instance type, image, region and zone.`,
 			return err
 		}
 
-		prov, err := provisioner.NewProvisioner(providerName, credentialsName)
+		region, err := cmd.Flags().GetString("region")
+		if err != nil {
+			return err
+		}
+
+		prov, err := provisioner.NewProvisioner(providerName, credentialsName, region)
 		if err != nil {
 			return fmt.Errorf("failed to create provisioner: %w", err)
 		}
@@ -71,11 +76,12 @@ func init() {
 	_ = createCmd.MarkFlagRequired("credentials")
 	createCmd.Flags().StringP("provider", "p", "", "The cloud provider")
 	_ = createCmd.MarkFlagRequired("provider")
+	createCmd.Flags().StringP("region", "r", "", "The cloud provider region where the instance will be spawned")
+	_ = createCmd.MarkFlagRequired("region")
 
 	// Machine specific flags
 	createCmd.Flags().StringVarP(&createRequest.InstanceType, "instance-type", "t", "", "The instance type (or maybe named flavor, droplet, vm depending of the cloud provider)")
 	createCmd.Flags().StringVarP(&createRequest.Image, "image", "i", "", "The image to use for the instance")
-	createCmd.Flags().StringVarP(&createRequest.Region, "region", "r", "", "The cloud provider region where the instance will be spawned")
 	createCmd.Flags().StringVarP(&createRequest.Zone, "zone", "z", "", "The zone in the region where the instance will be spawned")
 
 	// Networking customization flags

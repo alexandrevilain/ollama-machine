@@ -38,7 +38,7 @@ func (p *Provider) Credentials() provider.Credentials {
 	return p.credentials
 }
 
-func (p *Provider) MachineManager() (provider.MachineManager, error) {
+func (p *Provider) MachineManager(region string) (provider.MachineManager, error) {
 	if p.credentials == nil {
 		return nil, errors.New("credentials not set")
 	}
@@ -48,7 +48,7 @@ func (p *Provider) MachineManager() (provider.MachineManager, error) {
 		p.credentials.ApplicationKey,
 		p.credentials.ApplicationSecret,
 		p.credentials.ConsumerKey,
-		"", // Region is not used.
+		region,
 		p.credentials.ProjectID)
 	if err != nil {
 		return nil, err

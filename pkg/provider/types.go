@@ -58,7 +58,7 @@ type Provider interface {
 	// Credentials returns the credentials for the provider.
 	Credentials() Credentials
 	// MachineManager returns the machine manager for the provider.
-	MachineManager() (MachineManager, error)
+	MachineManager(region string) (MachineManager, error)
 }
 
 // Machine represents a machine instance.
@@ -69,6 +69,8 @@ type Machine struct {
 	Name string `json:"name"`
 	// IP is the IP address of the machine.
 	IP string `json:"ip"`
+	// Region is the region the machine is in.
+	Region string `json:"region"`
 	// State is the current state of the machine.
 	State MachineState `json:"state"`
 }
@@ -81,8 +83,6 @@ type CreateMachineRequest struct {
 	InstanceType string
 	// Image is the image to use for the machine.
 	Image string
-	// Region is the region to create the machine in.
-	Region string
 	// Zone is the zone to create the machine in.
 	Zone string
 	// Tags are the tags to assign to the machine.
