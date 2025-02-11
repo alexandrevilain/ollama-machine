@@ -65,8 +65,8 @@ github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaU
 github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/gophercloud/gophercloud/v2 v2.4.0 h1:XhP5tVEH3ni66NSNK1+0iSO6kaGPH/6srtx6Cr+8eCg=
-github.com/gophercloud/gophercloud/v2 v2.4.0/go.mod h1:uJWNpTgJPSl2gyzJqcU/pIAhFUWvIkp8eE8M15n9rs4=
+github.com/gophercloud/gophercloud/v2 v2.5.0 h1:DubPfC43gsZiGZ9LT1IJflVMm+0rck0ejoPsH8D5rqk=
+github.com/gophercloud/gophercloud/v2 v2.5.0/go.mod h1:Ki/ILhYZr/5EPebrPL9Ej+tUg4lqx71/YH2JWVeU+Qk=
 github.com/gosuri/uitable v0.0.4 h1:IG2xLKRvErL3uhY6e1BylFzG+aJiwQviDDTfOKeKTpY=
 github.com/gosuri/uitable v0.0.4/go.mod h1:tKR86bXuXPZazfOTG1FIzvjIdXzd0mo4Vtn16vt0PJo=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
