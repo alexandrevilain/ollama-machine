@@ -1,12 +1,13 @@
 module github.com/alexandrevilain/ollama-machine
 
 go 1.23.4
+toolchain go1.24.1
 
 require (
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/aws/aws-sdk-go-v2/config v1.29.8
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.61
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.210.1
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.211.0
 	github.com/charmbracelet/log v0.4.0
 	github.com/dirien/ovh-go-sdk v0.2.0
 	github.com/docker/machine v0.16.2
