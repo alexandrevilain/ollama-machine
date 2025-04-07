@@ -1,6 +1,7 @@
 module github.com/alexandrevilain/ollama-machine
 
 go 1.23.4
+toolchain go1.24.1
 
 require (
 	github.com/aws/aws-sdk-go v1.55.6
@@ -13,7 +14,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gophercloud/gophercloud/v2 v2.6.0
 	github.com/gosuri/uitable v0.0.4
-	github.com/onsi/gomega v1.36.3
+	github.com/onsi/gomega v1.37.0
 	github.com/ovh/go-ovh v1.7.0
 	github.com/spf13/afero v1.14.0
 	github.com/spf13/cobra v1.9.1
