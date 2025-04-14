@@ -11,7 +11,7 @@ require (
 	github.com/dirien/ovh-go-sdk v0.2.0
 	github.com/docker/machine v0.16.2
 	github.com/google/uuid v1.6.0
-	github.com/gophercloud/gophercloud/v2 v2.6.0
+	github.com/gophercloud/gophercloud/v2 v2.7.0
 	github.com/gosuri/uitable v0.0.4
 	github.com/onsi/gomega v1.37.0
 	github.com/ovh/go-ovh v1.7.0
