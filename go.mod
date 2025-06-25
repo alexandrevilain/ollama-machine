@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-sdk-go v1.55.7
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.70
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.224.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.226.0
 	github.com/charmbracelet/log v0.4.2
 	github.com/dirien/ovh-go-sdk v0.2.0
 	github.com/docker/machine v0.16.2
