@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/aws/aws-sdk-go v1.55.7
-	github.com/aws/aws-sdk-go-v2/config v1.29.14
+	github.com/aws/aws-sdk-go-v2/config v1.29.17
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.70
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.231.0
 	github.com/charmbracelet/log v0.4.2
