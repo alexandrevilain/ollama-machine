@@ -17,7 +17,7 @@ require (
 	github.com/ovh/go-ovh v1.9.0
 	github.com/spf13/afero v1.14.0
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.6
+	github.com/spf13/pflag v1.0.7
 	github.com/zalando/go-keyring v0.2.6
 	golang.org/x/crypto v0.40.0
 	gopkg.in/yaml.v3 v3.0.1
