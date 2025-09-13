@@ -11,7 +11,7 @@ defaults:
     shell: bash
 
 env:
-  GOLANG_CI_VERSION: v1.62.2
+  GOLANG_CI_VERSION: v2.4.0
 
 jobs:
   license:
@@ -31,7 +31,7 @@ jobs:
           go-version-file: 'go.mod'
           cache: false
       - name: lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v7
         with:
           version: ${{ env.GOLANG_CI_VERSION }}
   build:

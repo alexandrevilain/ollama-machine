@@ -33,6 +33,7 @@ const (
 
 type Machine struct {
 	*provider.Machine
+
 	OllamaConfig    OllamaConfig      `json:"ollamaConfig"`
 	ProviderName    string            `json:"providerName"`
 	CredentialsName string            `json:"credentialsName"`
