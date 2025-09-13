@@ -81,13 +81,13 @@ GOLANGCI_LINT = $(LOCALBIN)/golangci-lint
 GO_LICENSER ?= $(LOCALBIN)/go-licenser
 
 ## Tool Versions
-GOLANGCI_LINT_VERSION ?= v1.62.2
+GOLANGCI_LINT_VERSION ?= v2.4.0
 GO_LICENSER_VERSION ?= v0.4.0
 
 .PHONY: golangci-lint
 golangci-lint: $(GOLANGCI_LINT) ## Download golangci-lint locally if necessary.
 $(GOLANGCI_LINT): $(LOCALBIN)
-	$(call go-install-tool,$(GOLANGCI_LINT),github.com/golangci/golangci-lint/cmd/golangci-lint,$(GOLANGCI_LINT_VERSION))
+	$(call go-install-tool,$(GOLANGCI_LINT),github.com/golangci/golangci-lint/v2/cmd/golangci-lint,$(GOLANGCI_LINT_VERSION))
 
 .PHONY: go-licenser
 go-licenser: $(GO_LICENSER)
