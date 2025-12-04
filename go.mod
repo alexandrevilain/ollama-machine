@@ -18,7 +18,7 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/ovh/go-ovh v1.9.0
 	github.com/spf13/afero v1.15.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/zalando/go-keyring v0.2.6
 	golang.org/x/crypto v0.45.0
